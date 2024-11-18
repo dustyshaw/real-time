@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import VehicleIcon from "./VehicleIcon";
-import { PlayerInterface } from "../types/PlayerVehicle";
+import { PlayerInterface } from "../types/PlayerInterface";
 
 const Vehicle = () => {
   const [car, setCar] = useState<PlayerInterface>();
