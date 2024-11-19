@@ -159,3 +159,25 @@ test("accelerates along y axise", () => {
     const updatedVehicle = moveVehicle(oldVehicle)
     expect (updatedVehicle).toEqual(expectedVehicle)
 })
+
+
+test("accelerates along 45 angle", () => {
+    const oldVehicle:PlayerInterface = {
+        id: 1,
+        xPosition: 0,
+        yPosition: 0,
+        angle: 45,
+        direction: Direction.Straight,
+        velocity: 10
+    }
+    const expectedVehicle:PlayerInterface = {
+        id: 1,
+        xPosition: 7,
+        yPosition: 7,
+        angle: 45,
+        direction: Direction.Straight,
+        velocity: 10
+    }
+    const updatedVehicle = moveVehicle(oldVehicle)
+    expect (updatedVehicle).toEqual(expectedVehicle)
+})
