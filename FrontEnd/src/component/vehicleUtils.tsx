@@ -1,37 +1,35 @@
-import { FC, useState } from "react";
-import Vehicle from "./Vehicle";
 import { PlayerInterface } from "../types/PlayerInterface";
 import { Direction } from "../types/Direction";
 
-interface vehicleUtilsProps {
-  oldVehicle: PlayerInterface;
-}
-
-export const vehicleUtils: FC<vehicleUtilsProps> = ({ oldVehicle }) => {
+export const moveVehicle = (oldVehicle: PlayerInterface): PlayerInterface  => {
   console.log(oldVehicle);
-  const DEGREES: number = 3;
+  const DEGREES: number = 45;
+  const VELOCITY: number = oldVehicle.velocity;
 
-//   const newVehicle:PlayerInterface = {
-//       id: oldVehicle.id,
-//       xPosition: oldVehicle.xPosition,
-//       yPosition: oldVehicle.yPosition,
-//       angle: oldVehicle.angle,
-//       direction: oldVehicle.direction,
-//       velocity: oldVehicle.velocity
-//   }
+    const newVehicle:PlayerInterface = {
+        id: oldVehicle.id,
+        xPosition: oldVehicle.xPosition,
+        yPosition: oldVehicle.yPosition,
+        angle: oldVehicle.angle,
+        direction: oldVehicle.direction,
+        velocity: oldVehicle.velocity
+    }
 
-  const [newV, setnewV] = useState(oldVehicle)
-
-  const moveVehicle = (oldVehicle: PlayerInterface) => {
     if (oldVehicle.direction == Direction.Left) {
-        setnewV((oldVehicle) => ({... oldVehicle, direction: oldVehicle.angle - DEGREES}))
+      newVehicle.angle = newVehicle.angle - DEGREES
     }
 
     if (oldVehicle.direction == Direction.Right) {
-        setnewV((oldVehicle) => ({... oldVehicle, direction: oldVehicle.angle + DEGREES}))
+      newVehicle.angle = newVehicle.angle + DEGREES
     }
-    
-  }
 
-  return <Vehicle />
+    const angleInRadians = newVehicle.angle * Math.PI / 180;
+
+    //if (oldVehicle.velocity === 1) {
+      newVehicle.xPosition = Math.round(oldVehicle.xPosition + VELOCITY * Math.cos(angleInRadians));
+      newVehicle.yPosition = Math.round(oldVehicle.yPosition + VELOCITY * Math.sin(angleInRadians));
+    //}
+  
+
+    return newVehicle;
 };
