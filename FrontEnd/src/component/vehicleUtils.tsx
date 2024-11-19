@@ -30,11 +30,8 @@ export const vehicleUtils: FC<vehicleUtilsProps> = ({ oldVehicle }) => {
     if (oldVehicle.direction == Direction.Right) {
         setnewV((oldVehicle) => ({... oldVehicle, direction: oldVehicle.angle + DEGREES}))
     }
-
-
-
     
   }
 
-  return <Vehicle />;
+  return <Vehicle />
 };
