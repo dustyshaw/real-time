@@ -1,6 +1,6 @@
 import { Direction } from "./Direction";
 
-export interface PlayerInterface {
+export interface Vehicle {
     id: number,
     xPosition: number,
     yPosition: number,

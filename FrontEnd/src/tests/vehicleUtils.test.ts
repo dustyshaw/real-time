@@ -1,12 +1,12 @@
 import { moveVehicle } from "../component/vehicleUtils"
 import { expect, test } from "vitest";
-import { PlayerInterface } from "../types/PlayerInterface";
+import { Vehicle } from "../types/PlayerInterface";
 import { Direction } from "../types/Direction";
 
 
 test("moves angle right", () => {
 
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -20,7 +20,7 @@ test("moves angle right", () => {
 
 test("moves angle left", () => {
 
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -34,7 +34,7 @@ test("moves angle left", () => {
 
 test("moves down positive x axis", () => {
 
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -43,7 +43,7 @@ test("moves down positive x axis", () => {
         velocity: 1
     }
 
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 1,
@@ -56,7 +56,7 @@ test("moves down positive x axis", () => {
 })
 
 test("moves along 45 degree angle", () => {
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -64,7 +64,7 @@ test("moves along 45 degree angle", () => {
         direction: Direction.Straight,
         velocity: 1
     }
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: 1,
         yPosition: 1,
@@ -77,7 +77,7 @@ test("moves along 45 degree angle", () => {
 })
 
 test("moves along 225 degree angle", () => {
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -85,7 +85,7 @@ test("moves along 225 degree angle", () => {
         direction: Direction.Straight,
         velocity: 1
     }
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: -1,
         yPosition: -1,
@@ -98,7 +98,7 @@ test("moves along 225 degree angle", () => {
 })
 
 test("moves along -45 degree angle", () => {
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -106,7 +106,7 @@ test("moves along -45 degree angle", () => {
         direction: Direction.Straight,
         velocity: 1
     }
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: 1,
         yPosition: -1,
@@ -119,7 +119,7 @@ test("moves along -45 degree angle", () => {
 })
 
 test("accelerates along x axis", () => {
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -127,7 +127,7 @@ test("accelerates along x axis", () => {
         direction: Direction.Straight,
         velocity: 2
     }
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: 2,
         yPosition: 0,
@@ -140,7 +140,7 @@ test("accelerates along x axis", () => {
 })
 
 test("accelerates along y axise", () => {
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -148,7 +148,7 @@ test("accelerates along y axise", () => {
         direction: Direction.Straight,
         velocity: 2
     }
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 2,
@@ -162,7 +162,7 @@ test("accelerates along y axise", () => {
 
 
 test("accelerates along 45 angle", () => {
-    const oldVehicle:PlayerInterface = {
+    const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
         yPosition: 0,
@@ -170,7 +170,7 @@ test("accelerates along 45 angle", () => {
         direction: Direction.Straight,
         velocity: 10
     }
-    const expectedVehicle:PlayerInterface = {
+    const expectedVehicle:Vehicle = {
         id: 1,
         xPosition: 7,
         yPosition: 7,

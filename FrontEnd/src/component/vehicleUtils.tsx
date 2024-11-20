@@ -1,12 +1,12 @@
-import { PlayerInterface } from "../types/PlayerInterface";
+import { Vehicle } from "../types/PlayerInterface";
 import { Direction } from "../types/Direction";
 
-export const moveVehicle = (oldVehicle: PlayerInterface): PlayerInterface  => {
+export const moveVehicle = (oldVehicle: Vehicle): Vehicle  => {
   console.log(oldVehicle);
   const DEGREES: number = 45;
   const VELOCITY: number = oldVehicle.velocity;
 
-    const newVehicle:PlayerInterface = {
+    const newVehicle:Vehicle = {
         id: oldVehicle.id,
         xPosition: oldVehicle.xPosition,
         yPosition: oldVehicle.yPosition,
