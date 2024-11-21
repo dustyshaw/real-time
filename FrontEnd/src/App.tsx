@@ -3,60 +3,73 @@ import { useContext, useEffect, useState } from 'react'
 import './App.css'
 import VehicleComponent from './component/VehicleComponent'
 import { GameServerContext } from './component/GameServercontext'
+import { Vehicle } from './types/PlayerInterface'
 
 function App() {
   // const [count, setCount] = useState(0)
   const gameContext = useContext(GameServerContext)
-  const [ticking, setTicking] = useState(true),
-    [count, setCount] = useState(0)
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
 
-    if(event.key === 'w'){
+
+  const handleKeyPress = (event: KeyboardEvent) => {
+    if(event.key == 'w'){
       console.log('move forward ')
       gameContext?.updateVehicle(1, "moveForward")
     }
-    if (event.key === 's') {
+    if (event.key == 's') {
       console.log('move backward')
       gameContext?.updateVehicle(1, "moveBackward")
     }
     if (event.key == 'a') {
       console.log('turn left')
+      gameContext?.updateVehicle(1, "turnLeft")
     }
     if (event.key == 'd') {
       console.log('turn right')
+      gameContext?.updateVehicle(1, "turnRight")
     }
   }
 
-  const handleKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyUp = (event: KeyboardEvent) => {
 
-    if(event.key === 'w'){
+    if(event.key == 'w'){
       console.log('stop moving forward ')
+      gameContext?.updateVehicle(1, "stopForwards")
     }
-    if (event.key === 's') {
+    if (event.key == 's') {
       console.log('stop move backward')
+      gameContext?.updateVehicle(1, "stopBackwards")
     }
     if (event.key == 'a') {
       console.log('stope turn left')
+      gameContext?.updateVehicle(1, "stopLeft")
     }
     if (event.key == 'd') {
       console.log('stop turn right')
+      gameContext?.updateVehicle(1, "stopRight")
     }
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => ticking && setCount(count + 1), 10)
-    // console.log("hello?")
-    return () => clearTimeout(timer)
-  }, [count, ticking])
+    document.body.addEventListener('keydown', handleKeyPress);
+    document.body.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyPress);
+      document.body.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => ticking && setCount(count + 1), 10)
+  //   // console.log("hello?")
+  //   return () => clearTimeout(timer)
+  // }, [count, ticking])
 
   return (
     <>
-      <div className='w-screen h-screen ' style={{ width: "100vw", height: "100vh", backgroundColor: "lightskyblue" }} onKeyDown={handleKeyPress} onKeyUp={handleKeyUp}
-        tabIndex={0}  // Make the div focusable 
-      >
-
-        <VehicleComponent />
+      <div>
+        <VehicleComponent vehicle={gameContext?.vehicle} />
       </div>
     </>
   )

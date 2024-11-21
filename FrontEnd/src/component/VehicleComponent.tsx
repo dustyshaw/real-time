@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { FC } from "react";
 import VehicleIcon from "./VehicleIcon";
 import { Vehicle } from "../types/PlayerInterface";
 
-const VehicleComponent = () => {
-  const [car, setCar] = useState<Vehicle>();
+interface VehicleComponentProps {
+  vehicle: Vehicle | undefined;
+}
+
+const VehicleComponent: FC<VehicleComponentProps> = ({vehicle}) => {
+  console.log(vehicle?.angle) // ALWAYS 90?? WHY??
   return (
     <div
       style={{
         position: "fixed",
-        rotate: `${car?.angle}deg`,
+        rotate: `${vehicle?.angle}deg`,
         fill: "#999999",
         width: `80px`,
         height: `80px`,
-        top: `${car?.xPosition}px`,
-        left: `${car?.yPosition}px`,
+        top: `${vehicle?.xPosition}px`,
+        left: `${vehicle?.yPosition}px`,
       }}
     >
       <VehicleIcon />
