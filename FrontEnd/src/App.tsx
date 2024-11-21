@@ -1,9 +1,8 @@
 
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import './App.css'
 import VehicleComponent from './component/VehicleComponent'
 import { GameServerContext } from './component/GameServercontext'
-import { Vehicle } from './types/PlayerInterface'
 
 function App() {
   // const [count, setCount] = useState(0)

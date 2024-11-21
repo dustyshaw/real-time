@@ -1,4 +1,3 @@
-import React from 'react'
 
 const PlayerControls = () => {
     // Create a PlayerControls component that displays nothing, 

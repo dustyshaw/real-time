@@ -3,12 +3,10 @@ import {
   ReactNode,
   useEffect,
   useState,
-  useSyncExternalStore,
 } from "react";
 import { Vehicle } from "../types/PlayerInterface";
 import { Direction } from "../types/Direction";
 import { moveVehicle } from "./vehicleUtils";
-import { Velocity } from "../types/Velocity";
 
 interface GameServerContextType {
   vehicle: Vehicle;
