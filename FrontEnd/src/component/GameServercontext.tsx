@@ -22,7 +22,7 @@ export const GameServerContext = createContext<GameServerContextType | undefined
 
 export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}) => {
   const [ticking] = useState(true),
-    [count, setCount] = useState(0);
+  [count, setCount] = useState(0);
 
   const [vehicle, setVehicle] = useState<Vehicle>({
     id: 1,
