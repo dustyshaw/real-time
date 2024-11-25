@@ -25,13 +25,24 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
   [count, setCount] = useState(0);
 
   const [vehicle, setVehicle] = useState<Vehicle>({
-    id: 1,
+    id: Date.now(),
     xPosition: 0,
     yPosition: 0,
     angle: 0,
     direction: Direction.Straight,
     velocity: 0,
   });
+
+  const [allVehicles, setAllVehicles] = useState<Vehicle[]>([])
+
+  const addVehicle = (vehicle: Vehicle ) => {
+    setAllVehicles(oldList => [...oldList, vehicle])
+  }
+
+  const removeVehicle = (vehicle: Vehicle ) => {
+    setAllVehicles(oldList => oldList.filter(v => v.id != vehicle.id))
+  }
+
 
   const updateVehicle = (
     id: number,
