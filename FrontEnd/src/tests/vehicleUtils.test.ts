@@ -5,7 +5,6 @@ import { Direction } from "../types/Direction";
 
 
 test("moves angle right", () => {
-
     const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
@@ -14,12 +13,21 @@ test("moves angle right", () => {
         direction: Direction.Right,
         velocity: 0
     }
+    const expectedVehicle:Vehicle = {
+        id: 1,
+        xPosition: 0,
+        yPosition: 0,
+        angle: 2,
+        direction: Direction.Right,
+        velocity: 0
+    }
     const updatedVehicle = moveVehicle(oldVehicle)
-    expect (updatedVehicle.angle).toBe(45)
+    expect (updatedVehicle.angle).toBe(2)
+    expect (updatedVehicle).toEqual(expectedVehicle)
+
 })
 
 test("moves angle left", () => {
-
     const oldVehicle:Vehicle = {
         id: 1,
         xPosition: 0,
@@ -28,8 +36,17 @@ test("moves angle left", () => {
         direction: Direction.Left,
         velocity: 0
     }
+    const expectedVehicle:Vehicle = {
+        id: 1,
+        xPosition: 0,
+        yPosition: 0,
+        angle: 43,
+        direction: Direction.Left,
+        velocity: 0
+    }
     const updatedVehicle = moveVehicle(oldVehicle)
-    expect (updatedVehicle.angle).toBe(0)
+    expect (updatedVehicle.angle).toBe(43)
+    expect (updatedVehicle).toEqual(expectedVehicle)
 })
 
 test("moves down positive x axis", () => {

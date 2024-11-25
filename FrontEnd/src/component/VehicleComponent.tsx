@@ -7,7 +7,6 @@ interface VehicleComponentProps {
 }
 
 const VehicleComponent: FC<VehicleComponentProps> = ({vehicle}) => {
-  console.log(vehicle?.angle) // ALWAYS 90?? WHY??
   return (
     <div
       style={{
