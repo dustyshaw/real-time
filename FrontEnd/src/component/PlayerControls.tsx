@@ -12,38 +12,39 @@ const PlayerControls = () => {
   const handleKeyPress = (event: KeyboardEvent) => {
     if (event.key == "w") {
       console.log("move forward ");
-      gameContext?.updateVehicle(1, "moveForward");
+      // TODO change to id
+      gameContext?.updateVehicle(gameContext.vehicle.id, "moveForward");
     }
     if (event.key == "s") {
       console.log("move backward");
-      gameContext?.updateVehicle(1, "moveBackward");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "moveBackward");
     }
     if (event.key == "a") {
       console.log("turn left");
-      gameContext?.updateVehicle(1, "turnLeft");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "turnLeft");
     }
     if (event.key == "d") {
       console.log("turn right");
-      gameContext?.updateVehicle(1, "turnRight");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "turnRight");
     }
   };
 
   const handleKeyUp = (event: KeyboardEvent) => {
     if (event.key == "w") {
       console.log("stop moving forward ");
-      gameContext?.updateVehicle(1, "stopForwards");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "stopForwards");
     }
     if (event.key == "s") {
       console.log("stop move backward");
-      gameContext?.updateVehicle(1, "stopBackwards");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "stopBackwards");
     }
     if (event.key == "a") {
       console.log("stope turn left");
-      gameContext?.updateVehicle(1, "stopLeft");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "stopLeft");
     }
     if (event.key == "d") {
       console.log("stop turn right");
-      gameContext?.updateVehicle(1, "stopRight");
+      gameContext?.updateVehicle(gameContext.vehicle.id, "stopRight");
     }
   };
 

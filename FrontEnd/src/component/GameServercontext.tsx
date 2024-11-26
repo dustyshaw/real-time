@@ -21,6 +21,7 @@ interface GameServerContextType {
 export const GameServerContext = createContext<GameServerContextType | undefined>(undefined);
 
 export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}) => {
+
   const [ticking] = useState(true),
   [count, setCount] = useState(0);
 
@@ -56,7 +57,9 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
       | "stopLeft" //a key
       | "stopRight" //d
   ) => {
+    
     // adjust vehicle movement flags according to vehicleAction
+    console.log("bahhhh", vehicle.id, id)
     if (id == vehicle.id) {
       setVehicle((oldVehicle) => {
         switch (vehicleAction) {
