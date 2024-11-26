@@ -20,12 +20,11 @@ export const moveVehicle = (oldVehicle: Vehicle): Vehicle => {
 
   const angleInRadians = (newVehicle.angle * Math.PI) / 180;
 
-  newVehicle.xPosition = Math.round(
-    (oldVehicle.xPosition =
-      oldVehicle.xPosition + (oldVehicle.velocity * VELOCITY) * Math.cos(angleInRadians))
+   newVehicle.xPosition = Math.round(
+    oldVehicle.xPosition + (oldVehicle.velocity * VELOCITY) * Math.cos(angleInRadians)
   );
   newVehicle.yPosition = Math.round(
-    (oldVehicle.yPosition += (oldVehicle.velocity * VELOCITY) * Math.sin(angleInRadians))
+    oldVehicle.yPosition + (oldVehicle.velocity * VELOCITY) * Math.sin(angleInRadians)
   );
 
   return newVehicle;

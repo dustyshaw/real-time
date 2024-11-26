@@ -17,6 +17,8 @@ interface GameServerContextType {
       | "stopLeft" //a key
       | "stopRight" //d
   ) => void;
+  addVehicle: () => void;
+  removeVehicle: (vehicle: Vehicle) => void;
 }
 export const GameServerContext = createContext<GameServerContextType | undefined>(undefined);
 
@@ -36,13 +38,26 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
 
   const [allVehicles, setAllVehicles] = useState<Vehicle[]>([])
 
-  const addVehicle = (vehicle: Vehicle ) => {
-    setAllVehicles(oldList => [...oldList, vehicle])
+  const addVehicle = () => {
+    console.log("Adding Vehcile", allVehicles.length)
+    const randoVehicle: Vehicle = {
+      id: Date.now(),
+      xPosition: 0,
+      yPosition: 0,
+      angle: 0,
+      direction: Direction.Straight,
+      velocity: 0
+    }
+    setAllVehicles(oldList => [...oldList, randoVehicle])
   }
 
   const removeVehicle = (vehicle: Vehicle ) => {
+    console.log("Removeing  Vehcile", allVehicles.length)
+
     setAllVehicles(oldList => oldList.filter(v => v.id != vehicle.id))
   }
+
+  // console.log("VEHICLES IN CONTEXT", allVehicles)
 
 
   const updateVehicle = (
@@ -79,13 +94,13 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
             return {
               ...oldVehicle,
               direction: Direction.Left,
-              velocity: (oldVehicle.velocity = -1),
+              velocity: (oldVehicle.velocity = 0),
             };
           case "turnRight":
             return {
               ...oldVehicle,
               direction: Direction.Right,
-              velocity: (oldVehicle.velocity = 1),
+              velocity: (oldVehicle.velocity = 0),
             };
           case "stopForwards":
             return { ...oldVehicle, velocity: 0 };
@@ -120,7 +135,7 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
   }, [count, ticking]);
 
   return (
-    <GameServerContext.Provider value={{ vehicle, updateVehicle }}>
+    <GameServerContext.Provider value={{ vehicle, updateVehicle, addVehicle, removeVehicle }}>
       {children}
     </GameServerContext.Provider>
   );
