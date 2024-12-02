@@ -1,8 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import "./App.css";
 import VehicleComponent from "./component/VehicleComponent";
-import { GameServerContext } from "./component/GameServercontext";
+import {
+  GameServerContext,
+  GameServerProvider,
+} from "./component/GameServercontext";
 import PlayerControls from "./component/PlayerControls";
+import GameClientContext, { GameClientProvider } from "./component/GameClientContext";
 
 function App() {
   const gameContext = useContext(GameServerContext);
@@ -13,17 +17,17 @@ function App() {
   useEffect(() => {
     const newSocket = new WebSocket("ws://localhost:5207/ws");
     setSocket(newSocket);
-    gameContext?.addVehicle()
+    gameContext?.addVehicle();
 
     newSocket.addEventListener("open", () => {
       console.log("connected to server");
 
-      // TODO send new vehicle?? 
+      // TODO send new vehicle??
 
       // client sends a vehicle (id, "moveforward") for example
       newSocket.send("Hello Server!");
     });
-    
+
     newSocket.addEventListener("message", (event) => {
       console.log("received event", event.data);
 
@@ -31,7 +35,6 @@ function App() {
       setMessages((oldMessages) => [...oldMessages, event.data]);
     });
   }, []);
-
 
   // Server
   // useEffect(() => {
@@ -42,12 +45,12 @@ function App() {
   //   newSocket.addEventListener("open", () => {
   //     console.log("connected to server");
 
-  //     // TODO send new vehicle?? 
+  //     // TODO send new vehicle??
 
   //     // client sends a vehicle (id, "moveforward") for example
   //     newSocket.send("Hello Server!");
   //   });
-    
+
   //   newSocket.addEventListener("message", (event) => {
   //     console.log("received event", event.data);
 
@@ -59,10 +62,22 @@ function App() {
   return (
     <>
       <div>
-        <PlayerControls />
-        <VehicleComponent vehicle={gameContext?.vehicle} />
+        <button>Server</button>
+        <button>Client</button>
       </div>
-      <h1>WebSocket chat home page</h1>
+      <div>
+        <GameServerProvider>
+          <PlayerControls />
+          <VehicleComponent vehicle={gameContext?.vehicle} />
+        </GameServerProvider>
+      </div>
+      <div>
+        <GameClientProvider>
+          <PlayerControls />
+          <VehicleComponent vehicle={gameContext?.vehicle} />
+        </GameClientProvider>
+      </div>
+      {/* <h1>WebSocket chat home page</h1>
       <button onClick={() => {
         if (!socket) {
           console.error("socket not connected, cannot send message");
@@ -74,7 +89,7 @@ function App() {
       {messages.map((message, i) => (
         <div key={i.toString()}>{message}</div>
     ))}
-      </div>
+      </div> */}
     </>
   );
 }
