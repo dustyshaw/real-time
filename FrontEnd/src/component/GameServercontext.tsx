@@ -78,21 +78,12 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({
     newSocket.addEventListener("message", (event) => {
       console.log("received event on SERVER: ", event.data);
       const parsedData = JSON.parse(event.data);
+      // Recieves either a list of vehicles or a request to update vehicle. 
 
-      const tempVehicle = {
-        id: parsedData.id,
-        xPosition: parsedData.xPosition,
-        yPosition: parsedData.yPosition,
-        angle: parsedData.angle,
-        direction: parsedData.direction,
-        velocity: parsedData.velocity,
-      };
-
-      console.log("TEMP VEHICLE: ", tempVehicle);
-
+      if (parsedData.isMovementRequest) {
+        updateVehicle(parsedData.id, parsedData.movementFlag)
+      }
       // client recieves a list of vehicles
-      //setMessages((oldMessages) => [...oldMessages, event.data]);
-      setAllVehicles((oldVehicles) => [...oldVehicles, event.data]);
     });
   }, []);
 

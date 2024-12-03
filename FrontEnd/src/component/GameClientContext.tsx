@@ -73,85 +73,42 @@ export const GameClientProvider: React.FC<{ children: ReactNode }> = ({children}
       | "stopLeft" //a key
       | "stopRight" //d
   ) => {
-    // adjust vehicle movement flags according to vehicleAction
-    if (id == vehicle.id) {
-      setVehicle((oldVehicle) => {
-        switch (vehicleAction) {
-          case "moveForward":
-            return {
-              ...oldVehicle,
-              direction: Direction.Straight,
-              velocity: (oldVehicle.velocity = 1),
-            };
-          case "moveBackward":
-            return {
-              ...oldVehicle,
-              direction: Direction.Straight,
-              velocity: (oldVehicle.velocity = -1),
-            };
-          case "turnLeft":
-            return {
-              ...oldVehicle,
-              direction: Direction.Left,
-              velocity: (oldVehicle.velocity = 0),
-            };
-          case "turnRight":
-            return {
-              ...oldVehicle,
-              direction: Direction.Right,
-              velocity: (oldVehicle.velocity = 0),
-            };
-          case "stopForwards":
-            return { ...oldVehicle, velocity: 0 };
-          case "stopBackwards":
-            return { ...oldVehicle, velocity: 0 };
-          case "stopLeft":
-            return {
-              ...oldVehicle,
-              velocity: 0,
-              direction: Direction.Straight,
-            };
-          case "stopRight":
-            return {
-              ...oldVehicle,
-              velocity: 0,
-              direction: Direction.Straight,
-            };
-          default:
-            return oldVehicle;
-        }
-      });
-    }
-    // do not move the vehicle, just set movement flags for next movement cycle
+    const message = {
+      isMovementRequest: true,
+      id: id,
+      movementFlag: vehicleAction
+    };
+  
+    socket?.send(JSON.stringify(message));
   };
 
-  useEffect(() => {
-    const newSocket = new WebSocket("ws://localhost:5207/ws");
-    setSocket(newSocket);
-    addVehicle();
+  // useEffect(() => {
+  //   const newSocket = new WebSocket("ws://localhost:5207/ws");
+  //   setSocket(newSocket);
+  //   addVehicle();
 
-    newSocket.addEventListener("open", () => {
-      // console.log("connected to server");
+  //   newSocket.addEventListener("open", () => {
+  //     // console.log("connected to server");
 
-      // TODO send new vehicle??
-      // client sends a vehicle (id, "moveforward") for example
-      newSocket.send("Hello Server this is the client speaking!");
-      const message = {
-        id: vehicle.id,
-        direction: vehicle.direction
-      };
+  //     // TODO send new vehicle??
+  //     // client sends a vehicle (id, "moveforward") for example
+  //     newSocket.send("Hello Server this is the client speaking!");
+  //     const message = {
+  //       id: vehicle.id,
+  //       movementFlag: "moveForward"
+  //     };
     
-      // Send the message as a string
-      newSocket.send(JSON.stringify(message));
-    });
+  //     // Send the message as a string
+  //     newSocket.send(JSON.stringify(message));
+  //   });
 
-    newSocket.addEventListener("message", (event) => {
-      console.log("received event on CLIENT: ", event.data);
+  //   newSocket.addEventListener("message", (event) => {
+  //     console.log("received event on CLIENT: ", event.data);
 
-      // client recieves a list of vehicles
-      setMyVehicles((oldVehicles) => [...oldVehicles, event.data])
-    });
-  }, []);
+  //     // client recieves a list of vehicles
+  //     setMyVehicles((oldVehicles) => [...oldVehicles, event.data])
+  //   });
+  // }, []);
 
   // console.log("CLIENT VEHICLES: ", myVehicles)
 

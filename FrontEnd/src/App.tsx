@@ -74,7 +74,7 @@ function App() {
         <div>
           <h1>Server!</h1>
           <GameServerProvider>
-            <PlayerControls />
+            <PlayerControls usingServer={true} />
             <VehicleComponent vehicle={gameContext?.vehicle} />
           </GameServerProvider>
         </div>
@@ -82,7 +82,7 @@ function App() {
         <div>
           <h1>Client</h1>
           <GameClientProvider>
-            <PlayerControls />
+            <PlayerControls usingServer={false} />
             <VehicleComponent vehicle={gameContext?.vehicle} />
           </GameClientProvider>
         </div>
