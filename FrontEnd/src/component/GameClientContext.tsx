@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { Vehicle } from "../types/PlayerInterface";
 import PlayerControls from "./PlayerControls";
 import { Direction } from "../types/Direction";
@@ -124,6 +124,36 @@ export const GameClientProvider: React.FC<{ children: ReactNode }> = ({children}
     }
     // do not move the vehicle, just set movement flags for next movement cycle
   };
+
+  useEffect(() => {
+    const newSocket = new WebSocket("ws://localhost:5207/ws");
+    setSocket(newSocket);
+    addVehicle();
+
+    newSocket.addEventListener("open", () => {
+      // console.log("connected to server");
+
+      // TODO send new vehicle??
+      // client sends a vehicle (id, "moveforward") for example
+      newSocket.send("Hello Server this is the client speaking!");
+      const message = {
+        id: vehicle.id,
+        direction: vehicle.direction
+      };
+    
+      // Send the message as a string
+      newSocket.send(JSON.stringify(message));
+    });
+
+    newSocket.addEventListener("message", (event) => {
+      console.log("received event on CLIENT: ", event.data);
+
+      // client recieves a list of vehicles
+      setMyVehicles((oldVehicles) => [...oldVehicles, event.data])
+    });
+  }, []);
+
+  // console.log("CLIENT VEHICLES: ", myVehicles)
 
   return (
     <GameClientContext.Provider

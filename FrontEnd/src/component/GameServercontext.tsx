@@ -21,16 +21,17 @@ interface GameServerContextType {
   removeVehicle: (vehicle: Vehicle) => void;
 }
 
+export const GameServerContext = createContext<
+  GameServerContextType | undefined
+>(undefined);
 
-export const GameServerContext = createContext<GameServerContextType | undefined>(undefined);
-
-
-
-
-export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}) => {
+export const GameServerProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [ticking] = useState(true),
-  [count, setCount] = useState(0);
-  const [clientContexts, setClientContexts] = useState()
+    [count, setCount] = useState(0);
+  const [clientContexts, setClientContexts] = useState();
+  const [socket, setSocket] = useState<WebSocket | undefined>(undefined);
 
   const [vehicle, setVehicle] = useState<Vehicle>({
     id: Date.now(),
@@ -41,71 +42,59 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
     velocity: 0,
   });
 
-  const testVehicle1:Vehicle = {
-    id: Date.now(),
-    xPosition: 0,
-    yPosition: 0,
-    angle: 0,
-    direction: Direction.Straight,
-    velocity: 0,
-  }
-
-  const testVehicle2:Vehicle = {
-    id: Date.now(),
-    xPosition: 10,
-    yPosition: 10,
-    angle: 0,
-    direction: Direction.Straight,
-    velocity: 0,
-  }
-
-
-  const [allVehicles, setAllVehicles] = useState<Vehicle[]>([testVehicle1, testVehicle2])
+  const [allVehicles, setAllVehicles] = useState<Vehicle[]>([]);
 
   const addVehicle = () => {
-    console.log("Adding Vehcile", allVehicles.length)
+    console.log("Adding Vehcile", allVehicles.length);
     const randoVehicle: Vehicle = {
       id: Date.now(),
       xPosition: 0,
       yPosition: 0,
       angle: 0,
       direction: Direction.Straight,
-      velocity: 0
-    }
-    setAllVehicles(oldList => [...oldList, randoVehicle])
-  }
+      velocity: 0,
+    };
+    setAllVehicles((oldList) => [...oldList, randoVehicle]);
+  };
 
-  const removeVehicle = (vehicle: Vehicle ) => {
-    console.log("Removeing  Vehcile", allVehicles.length)
+  const removeVehicle = (vehicle: Vehicle) => {
+    console.log("Removeing  Vehcile", allVehicles?.length);
 
-    setAllVehicles(oldList => oldList.filter(v => v.id != vehicle.id))
-  }
+    setAllVehicles((oldList) => oldList?.filter((v) => v.id != vehicle.id));
+  };
 
-  // // Do stuff to send a vehicle list?
-  //  useEffect(() => {
-  //   const newSocket = new WebSocket("ws://localhost:5207/ws");
-  //   setSocket(newSocket);
-    
-  //   addVehicle()
+  useEffect(() => {
+    const newSocket = new WebSocket("ws://localhost:5207/ws");
+    setSocket(newSocket);
+    addVehicle();
 
-  //   newSocket.addEventListener("open", () => {
-  //     console.log("connected to server");
+    newSocket.addEventListener("open", () => {
+      // console.log("connected to server");
 
-  //     // TODO send new vehicle?? 
+      newSocket.send("Hello FROM the Server!");
+      newSocket.send(String(allVehicles));
+    });
 
-  //     // client sends a vehicle (id, "moveforward") for example
-  //     newSocket.send("Hello Server!");
-  //   });
-    
-  //   newSocket.addEventListener("message", (event) => {
-  //     console.log("received event", event.data);
+    newSocket.addEventListener("message", (event) => {
+      console.log("received event on SERVER: ", event.data);
+      const parsedData = JSON.parse(event.data);
 
-  //     // client recieves a list of vehicles
-  //     postMessage((oldMessages) => [...oldMessages, event.data]);
-  //   });
-  // }, []);
+      const tempVehicle = {
+        id: parsedData.id,
+        xPosition: parsedData.xPosition,
+        yPosition: parsedData.yPosition,
+        angle: parsedData.angle,
+        direction: parsedData.direction,
+        velocity: parsedData.velocity,
+      };
 
+      console.log("TEMP VEHICLE: ", tempVehicle);
 
+      // client recieves a list of vehicles
+      //setMessages((oldMessages) => [...oldMessages, event.data]);
+      setAllVehicles((oldVehicles) => [...oldVehicles, event.data]);
+    });
+  }, []);
 
   const updateVehicle = (
     id: number,
@@ -119,7 +108,6 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
       | "stopLeft" //a key
       | "stopRight" //d
   ) => {
-    
     // adjust vehicle movement flags according to vehicleAction
     if (id == vehicle.id) {
       setVehicle((oldVehicle) => {
@@ -172,7 +160,6 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
     // do not move the vehicle, just set movement flags for next movement cycle
   };
 
-
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     if (socket && socket.readyState === WebSocket.OPEN) {
@@ -195,7 +182,9 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({children}
   }, [count, ticking]);
 
   return (
-    <GameServerContext.Provider value={{ vehicle, updateVehicle, addVehicle, removeVehicle }}>
+    <GameServerContext.Provider
+      value={{ vehicle, updateVehicle, addVehicle, removeVehicle }}
+    >
       {children}
     </GameServerContext.Provider>
   );
