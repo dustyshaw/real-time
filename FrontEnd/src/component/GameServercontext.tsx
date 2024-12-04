@@ -4,7 +4,7 @@ import { Direction } from "../types/Direction";
 import { moveVehicle } from "./vehicleUtils";
 
 interface GameServerContextType {
-  vehicle: Vehicle;
+  allVehicles: Vehicle[];
   updateVehicle: (
     id: number,
     vehicleAction:
@@ -30,7 +30,6 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [ticking] = useState(true),
     [count, setCount] = useState(0);
-  const [clientContexts, setClientContexts] = useState();
   const [socket, setSocket] = useState<WebSocket | undefined>(undefined);
 
   const [vehicle, setVehicle] = useState<Vehicle>({
@@ -69,9 +68,6 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({
     addVehicle();
 
     newSocket.addEventListener("open", () => {
-      // console.log("connected to server");
-
-      newSocket.send("Hello FROM the Server!");
       newSocket.send(String(allVehicles));
     });
 
@@ -83,7 +79,6 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({
       if (parsedData.isMovementRequest) {
         updateVehicle(parsedData.id, parsedData.movementFlag)
       }
-      // client recieves a list of vehicles
     });
   }, []);
 
@@ -174,7 +169,7 @@ export const GameServerProvider: React.FC<{ children: ReactNode }> = ({
 
   return (
     <GameServerContext.Provider
-      value={{ vehicle, updateVehicle, addVehicle, removeVehicle }}
+      value={{ allVehicles, updateVehicle, addVehicle, removeVehicle }}
     >
       {children}
     </GameServerContext.Provider>

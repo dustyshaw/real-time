@@ -1,26 +1,29 @@
-import { FC } from "react";
+import { useContext } from "react";
 import VehicleIcon from "./VehicleIcon";
-import { Vehicle } from "../types/PlayerInterface";
+import { GameServerContext } from "./GameServercontext";
 
-interface VehicleComponentProps {
-  vehicle: Vehicle | undefined;
-}
+const VehicleComponent = () => {
+  const context = useContext(GameServerContext);
 
-const VehicleComponent: FC<VehicleComponentProps> = ({vehicle}) => {
   return (
-    <div
-      style={{
-        position: "fixed",
-        rotate: `${vehicle?.angle}deg`,
-        fill: "#999999",
-        width: `80px`,
-        height: `80px`,
-        top: `${vehicle?.xPosition}px`,
-        left: `${vehicle?.yPosition}px`,
-      }}
-    >
-      <VehicleIcon />
-    </div>
+    <>
+      {context?.allVehicles?.map((vehicle, key) => (
+        <div
+          key={key}
+          style={{
+            position: "fixed",
+            rotate: `${vehicle?.angle}deg`,
+            fill: "#999999",
+            width: `80px`,
+            height: `80px`,
+            top: `${vehicle?.xPosition}px`,
+            left: `${vehicle?.yPosition}px`,
+          }}
+        >
+          <VehicleIcon />
+        </div>
+      ))}
+    </>
   );
 };
 
